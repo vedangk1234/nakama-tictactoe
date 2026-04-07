@@ -2,4 +2,6 @@ FROM heroiclabs/nakama:latest
 
 COPY ./nakama/data/modules /nakama/data/modules
 
-CMD /nakama/nakama --name nakama1 --database.address postgres://postgres:WpyoKPNkIKSDwykWYqiOorATOhcvPHaB@postgres:5432/railway --logger.level debug --session.encryption_key supersecret1 --session.refresh_encryption_key supersecret2 --runtime.http_key supersecret --socket.server_key supersecret --cors.allowed_origins https://nakama-tictactoe.vercel.app
+ENV NAKAMA_DATABASE_ADDRESS=postgres://postgres:WpyoKPNkIKSDwykWYqiOorATOhcvPHaB@postgres:5432/railway
+ENV NAKAMA_CORS_ALLOWED_ORIGINS=https://nakama-tictactoe.vercel.app
+CMD ["/nakama/nakama"]
