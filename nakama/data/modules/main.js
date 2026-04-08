@@ -1,3 +1,4 @@
+var nk_log = 'MODULE TOP LEVEL EXECUTING';
 function uint8ArrayToString(data) {
     return String.fromCharCode.apply(null, new Uint8Array(data));
 }
@@ -211,6 +212,7 @@ function rpcGetLeaderboard(ctx, logger, nk, payload) {
 }
 
 InitModule = function(ctx, logger, nk, initializer) {
+    logger.info('INITMODULE CALLED');
     logger.info("MATCH MODULE LOADED");
 
     initializer.registerRpc("create_match", rpcCreateMatch);
