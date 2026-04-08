@@ -1,0 +1,13 @@
+database:
+  address:
+    - "postgres://postgres:WpyoKPNkIKSDwykWYqiOorATOhcvPHaB@postgres.railway.internal:5432/railway"
+
+socket:
+  server_key: "supersecret"
+
+session:
+  encryption_key: "supersecret1"
+  refresh_encryption_key: "supersecret2"
+
+runtime:
+  http_key: "supersecret"
