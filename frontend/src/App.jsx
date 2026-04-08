@@ -43,7 +43,7 @@ export default function App() {
     const session = await client.authenticateDevice(deviceId, true, name);
     sessionRef.current = session;
 
-    const socket = client.createSocket();
+    const socket = client.createSocket(true, false);
     await socket.connect(session, true);
     socketRef.current = socket;
 
