@@ -2,7 +2,7 @@ FROM heroiclabs/nakama:latest
 
 COPY ./nakama/data/modules /nakama/data/modules
 
-CMD ["/bin/sh", "-c", "/nakama/nakama \
+CMD ["/bin/sh", "-c", "exec /nakama/nakama \
 --database.address=$DATABASE_URL \
 --socket.server_key=supersecret \
 --session.encryption_key=supersecret1 \
