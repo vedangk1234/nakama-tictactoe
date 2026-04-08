@@ -210,7 +210,7 @@ function rpcGetLeaderboard(ctx, logger, nk, payload) {
     }
 }
 
-var InitModule = function(ctx, logger, nk, initializer) {
+InitModule = function(ctx, logger, nk, initializer) {
     logger.info("MATCH MODULE LOADED");
 
     initializer.registerRpc("create_match", rpcCreateMatch);
