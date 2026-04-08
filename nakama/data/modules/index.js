@@ -175,12 +175,15 @@ function rpcCreateMatch(ctx, logger, nk, payload) {
 function rpcFindMatch(ctx, logger, nk, payload) {
     logger.info("Finding match for user: " + ctx.userId);
 
-    var matches = nk.matchList(10, true, "tic-tac-toe", null, 1, "");
+    var matches = nk.matchList(10, true, null, 0, 1, "");
+
+    logger.info("Available matches: " + matches.length);
 
     if (matches && matches.length > 0) {
         for (var i = 0; i < matches.length; i++) {
-            if (matches[i].size === 1) {
-                logger.info("Found existing match: " + matches[i].matchId);
+            logger.info("Match found: " + matches[i].matchId + " size: " + matches[i].size);
+            if (matches[i].size < 2) {
+                logger.info("Joining existing match: " + matches[i].matchId);
                 return JSON.stringify({ match_id: matches[i].matchId });
             }
         }
