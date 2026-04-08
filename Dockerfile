@@ -1,3 +1,5 @@
 FROM heroiclabs/nakama:latest
 
-COPY ./nakama/data /nakama/data
+COPY nakama/data /nakama/data
+
+RUN ls -R /nakama/data
