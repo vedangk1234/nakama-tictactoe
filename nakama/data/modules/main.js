@@ -231,3 +231,5 @@ InitModule = function(ctx, logger, nk, initializer) {
 
     logger.info("RPCs registered");
 };
+
+module.exports = { InitModule: InitModule };
