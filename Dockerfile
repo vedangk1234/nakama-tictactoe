@@ -2,4 +2,4 @@ FROM heroiclabs/nakama:3.22.0
 
 COPY ./nakama/data/modules /nakama/data/modules
 
-CMD ["nakama", "--name", "nakama-node", "--database.address", "postgres:aGdbgaxUZtZsCsxckWLyWslIyYZAdFUK@postgres.railway.internal:5432/railway", "--logger.level", "INFO"]
+CMD ["sh", "-c", "sleep 5 && nakama --name nakama-node --database.address $DATABASE_ADDRESS --session.encryption_key $NAKAMA_ENCRYPTION_KEY --logger.level INFO"]
