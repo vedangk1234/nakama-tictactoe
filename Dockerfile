@@ -2,8 +2,8 @@ FROM heroiclabs/nakama:latest
 
 COPY ./nakama/data/modules /nakama/data/modules
 
-CMD ["/bin/sh", "-c", "echo DATABASE_URL=$DATABASE_URL && exec /nakama/nakama \
---database.address=$DATABASE_URL \
+CMD ["/bin/sh", "-c", "exec /nakama/nakama \
+--database.address=postgres://postgres:WpyoKPNkIKSDwykWYqiOorATOhcvPHaB@postgres.railway.internal:5432/railway \
 --socket.server_key=supersecret \
 --session.encryption_key=supersecret1 \
 --session.refresh_encryption_key=supersecret2 \
