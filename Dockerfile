@@ -1,8 +1,10 @@
 FROM heroiclabs/nakama:latest
 
+RUN echo "DOCKERFILE IS BEING USED"
+
 COPY ./nakama/data/modules /nakama/data/modules
 
-CMD ["/bin/sh", "-c", "exec /nakama/nakama \
+CMD ["/bin/sh", "-c", "echo STARTING NAKAMA && exec /nakama/nakama \
 --database.address=postgres://postgres:WpyoKPNkIKSDwykWYqiOorATOhcvPHaB@postgres.railway.internal:5432/railway \
 --socket.server_key=supersecret \
 --session.encryption_key=supersecret1 \
