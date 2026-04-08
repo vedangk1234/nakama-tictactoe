@@ -206,11 +206,15 @@ function rpcGetLeaderboard(ctx, logger, nk, payload) {
     }
 }
 
-function InitModule(ctx, logger, nk, initializer) {
+var InitModule = function(ctx, logger, nk, initializer) {
     logger.info("🚀 MATCH MODULE LOADED");
 
-    nk.leaderboardCreate("tictactoe_wins", false, "desc", "incr", "", {});
-    logger.info("📊 Leaderboard created");
+    try {
+        nk.leaderboardCreate("tictactoe_wins", false, "desc", "incr", "", {});
+        logger.info("📊 Leaderboard created");
+    } catch(e) {
+        logger.info("📊 Leaderboard already exists, skipping: " + e);
+    }
 
     initializer.registerMatch("tic-tac-toe", {
         matchInit,
@@ -227,4 +231,4 @@ function InitModule(ctx, logger, nk, initializer) {
     initializer.registerRpc("get_leaderboard", rpcGetLeaderboard);
 
     logger.info("✅ RPCs registered");
-}
+};
