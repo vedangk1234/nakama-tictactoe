@@ -51,7 +51,8 @@ function matchInit(ctx, logger, nk, params) {
             playerUsernames: {},
             turn: 0,
             winner: null,
-            winnerRecorded: false
+            winnerRecorded: false,
+            endTick: -1
         },
         tickRate: 10,
         label: "tic-tac-toe"
@@ -97,7 +98,6 @@ function matchJoin(ctx, logger, nk, dispatcher, tick, state, presences) {
 function matchLoop(ctx, logger, nk, dispatcher, tick, state, messages) {
     for (var i = 0; i < messages.length; i++) {
         var msg = messages[i];
-
         var data;
         try {
             data = JSON.parse(uint8ArrayToString(msg.data));
@@ -136,6 +136,7 @@ function matchLoop(ctx, logger, nk, dispatcher, tick, state, messages) {
                 var winnerId = state.winner === "X" ? state.playerIds[0] : state.playerIds[1];
                 recordWinner(nk, logger, state, winnerId);
             }
+            state.endTick = tick + 100;
         }
 
         dispatcher.broadcastMessage(1, JSON.stringify({
@@ -146,16 +147,17 @@ function matchLoop(ctx, logger, nk, dispatcher, tick, state, messages) {
         }));
     }
 
-    return null;
+    if (state.endTick > 0 && tick >= state.endTick) {
+        logger.info("Match ending after game over");
+        return null;
+    }
+
+    return { state: state };
 }
 
 function matchLeave(ctx, logger, nk, dispatcher, tick, state, presences) {
     for (var i = 0; i < presences.length; i++) {
         logger.info("Player left: " + presences[i].userId);
-        state.playerIds.splice(state.playerIds.indexOf(presences[i].userId), 1);
-    }
-    if (state.playerIds.length === 0) {
-        return null; // terminate match when empty
     }
     return { state: state };
 }
