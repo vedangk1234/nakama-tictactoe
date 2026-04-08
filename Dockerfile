@@ -1,10 +1,7 @@
 FROM heroiclabs/nakama:3.22.0
 
+# Copy your Nakama JS modules
 COPY ./nakama/data/modules /nakama/data/modules
 
-CMD [
-  "nakama",
-  "--name", "nakama-node",
-  "--database.address", "${DATABASE_URL#postgres://}",
-  "--logger.level", "INFO"
-]
+# Start Nakama (it will automatically use DATABASE_URL from Railway)
+CMD ["nakama"]
