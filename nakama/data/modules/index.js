@@ -1,4 +1,3 @@
-var nk_log = 'MODULE TOP LEVEL EXECUTING';
 function uint8ArrayToString(data) {
     return String.fromCharCode.apply(null, new Uint8Array(data));
 }
@@ -211,13 +210,15 @@ function rpcGetLeaderboard(ctx, logger, nk, payload) {
     }
 }
 
-InitModule = function(ctx, logger, nk, initializer) {
-    logger.info('INITMODULE CALLED');
+var InitModule = function(ctx, logger, nk, initializer) {
     logger.info("MATCH MODULE LOADED");
 
-    initializer.registerRpc("create_match", rpcCreateMatch);
-    initializer.registerRpc("find_match", rpcFindMatch);
-    initializer.registerRpc("get_leaderboard", rpcGetLeaderboard);
+    try {
+        nk.leaderboardCreate("tictactoe_wins", false, "desc", "incr", "", {});
+        logger.info("Leaderboard created");
+    } catch(e) {
+        logger.info("Leaderboard already exists, skipping: " + e);
+    }
 
     initializer.registerMatch("tic-tac-toe", {
         matchInit: matchInit,
@@ -229,7 +230,9 @@ InitModule = function(ctx, logger, nk, initializer) {
         matchSignal: matchSignal
     });
 
+    initializer.registerRpc("create_match", rpcCreateMatch);
+    initializer.registerRpc("find_match", rpcFindMatch);
+    initializer.registerRpc("get_leaderboard", rpcGetLeaderboard);
+
     logger.info("RPCs registered");
 };
-
-module.exports = { InitModule: InitModule };
