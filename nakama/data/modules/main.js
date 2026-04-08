@@ -213,12 +213,9 @@ function rpcGetLeaderboard(ctx, logger, nk, payload) {
 var InitModule = function(ctx, logger, nk, initializer) {
     logger.info("MATCH MODULE LOADED");
 
-    try {
-        nk.leaderboardCreate("tictactoe_wins", false, "desc", "incr", "", {});
-        logger.info("Leaderboard created");
-    } catch(e) {
-        logger.info("Leaderboard already exists, skipping: " + e);
-    }
+    initializer.registerRpc("create_match", rpcCreateMatch);
+    initializer.registerRpc("find_match", rpcFindMatch);
+    initializer.registerRpc("get_leaderboard", rpcGetLeaderboard);
 
     initializer.registerMatch("tic-tac-toe", {
         matchInit: matchInit,
@@ -229,10 +226,6 @@ var InitModule = function(ctx, logger, nk, initializer) {
         matchTerminate: matchTerminate,
         matchSignal: matchSignal
     });
-
-    initializer.registerRpc("create_match", rpcCreateMatch);
-    initializer.registerRpc("find_match", rpcFindMatch);
-    initializer.registerRpc("get_leaderboard", rpcGetLeaderboard);
 
     logger.info("RPCs registered");
 };
