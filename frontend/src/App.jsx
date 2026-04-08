@@ -130,7 +130,8 @@ export default function App() {
     setLoadingType("create");
     try {
       const { session } = await connect(username.trim());
-      const rpcResult = await client.rpc(session, "create_match", JSON.stringify({ mode: "classic" }));
+      const rpcResult = await socketRef.current.rpc("create_match", JSON.stringify({ mode: "classic" }));
+
       const payload = typeof rpcResult.payload === "string"
         ? JSON.parse(rpcResult.payload) : rpcResult.payload;
 
@@ -160,7 +161,7 @@ export default function App() {
       const { session } = await connect(username.trim());
       setMsg("🔍 Finding a match...");
 
-      const rpcResult = await client.rpc(session, "find_match", JSON.stringify({ mode: "classic" }));
+      const rpcResult = await socketRef.current.rpc("find_match", JSON.stringify({ mode: "classic" }));
       const payload = typeof rpcResult.payload === "string"
         ? JSON.parse(rpcResult.payload) : rpcResult.payload;
 
@@ -212,7 +213,8 @@ export default function App() {
         session = await client.authenticateDevice("guest-leaderboard-viewer", true, "Guest");
         sessionRef.current = session;
       }
-      const rpcResult = await client.rpc(session, "get_leaderboard", "{}");
+      const rpcResult = await socketRef.current.rpc("get_leaderboard", "{}");
+
       const payload = typeof rpcResult.payload === "string"
         ? JSON.parse(rpcResult.payload) : rpcResult.payload;
       setLeaderboard(payload.leaderboard || []);
