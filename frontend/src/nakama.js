@@ -1,9 +1,6 @@
-import { Client } from "@heroiclabs/nakama-js";
-
 const client = new Client(
-  "supersecret",
-  "nakama-tictactoe-production-b830.up.railway.app", // 👈 your Railway URL
+  "defaultkey",
+  "nakama-tictactoe-production-b830.up.railway.app",
   "443",
   true
 );
-export default client;

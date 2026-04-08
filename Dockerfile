@@ -1,5 +1,10 @@
-FROM heroiclabs/nakama:latest
+FROM heroiclabs/nakama:3.22.0
 
-COPY nakama/data /nakama/data
+COPY ./nakama/data/modules /nakama/data/modules
 
-RUN ls -R /nakama/data
+CMD [
+  "nakama",
+  "--name", "nakama-node",
+  "--database.address", "${DATABASE_URL#postgres://}",
+  "--logger.level", "INFO"
+]
