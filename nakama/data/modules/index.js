@@ -146,12 +146,16 @@ function matchLoop(ctx, logger, nk, dispatcher, tick, state, messages) {
         }));
     }
 
-    return { state: state };
+    return null;
 }
 
 function matchLeave(ctx, logger, nk, dispatcher, tick, state, presences) {
     for (var i = 0; i < presences.length; i++) {
         logger.info("Player left: " + presences[i].userId);
+        state.playerIds.splice(state.playerIds.indexOf(presences[i].userId), 1);
+    }
+    if (state.playerIds.length === 0) {
+        return null; // terminate match when empty
     }
     return { state: state };
 }
@@ -177,13 +181,9 @@ function rpcFindMatch(ctx, logger, nk, payload) {
 
     var matches = nk.matchList(10, true, null, 1, 1, "");
 
-    logger.info("Available matches: " + matches.length);
-
     if (matches && matches.length > 0) {
-        for (var i = 0; i < matches.length; i++) {
-            logger.info("Joining existing match: " + matches[i].matchId + " size: " + matches[i].size);
-            return JSON.stringify({ match_id: matches[i].matchId });
-        }
+        logger.info("Joining existing match: " + matches[0].matchId);
+        return JSON.stringify({ match_id: matches[0].matchId });
     }
 
     var matchId = nk.matchCreate("tic-tac-toe", {});
